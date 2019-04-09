@@ -1,0 +1,491 @@
+/* reset.css */
+a,abbr,acronym,address,applet,article,aside,audio,b,big,blockquote,body,canvas,caption,center,cite,code,dd,del,details,dfn,div,dl,dt,em,embed,fieldset,figcaption,figure,footer,form,h1,h2,h3,h4,h5,h6,header,hgroup,html,i,iframe,img,ins,kbd,label,legend,li,mark,menu,nav,object,ol,output,p,pre,q,ruby,s,samp,section,small,span,strike,strong,sub,summary,sup,table,tbody,td,tfoot,th,thead,time,tr,tt,u,ul,var,video{margin:0;padding:0;border:0;font-family:'Barlow',sans-serif;font:inherit;vertical-align:baseline}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:after,blockquote:before,q:after,q:before{content:'';content:none}table{border-collapse:collapse;border-spacing:0}
+
+// Google Font + Font Awesome
+@import url('https://fonts.googleapis.com/css?family=Barlow:400,500,600');
+@import url(https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css);
+
+@import "mixins";
+@import "variables";
+
+body {
+  background-color: $mainColor;
+  font-family: $font;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+html {
+  height: 100%;
+}
+
+h5 {
+  color: $mainColor;
+}
+
+// Styles for desktop and tablet devices
+.application {
+  width: $containerWidth;
+  margin: 9% auto;
+
+  h5 {
+    margin: 0;
+    padding-left: 8px;
+    font-size: 23px;
+    margin-bottom: 10px;
+  }
+
+  .main {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    height: 500px;
+    margin: 0 auto;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 5px;
+    align-items: stretch;
+
+    .item {
+      margin: 5px;
+    }
+
+    .col {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .col > div {
+      flex-grow: 1;
+      overflow: hidden;
+    }
+
+    // div current-forecast
+    .current-forecast {
+      width: $smallBoxesWidth;
+      display: flex;
+      height: 305px;
+      flex-wrap: wrap;
+      align-content: space-between;
+      box-sizing: border-box;
+      padding: 37px 37px 21px 37px;
+      color: $mainColor;
+      position: relative;
+      
+      .current-item {
+        flex-grow: 1;
+        z-index: 4;
+      }
+
+      .currentTemp {
+        flex-basis: 60%;
+        h3 {
+          font-size: 60px;
+        }
+      }
+
+      svg {
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+      }
+      
+      .weather_image {
+        flex-basis: 30%;
+        img {
+          width: 200%;
+          margin-top: -36px;
+          margin-left: -16px;
+        }
+      }
+
+      .updated {
+        display: flex;
+        justify-content: left;
+        text-align: left;
+        align-self: flex-start;
+        padding: 14px 0 0 0;
+        font-size: .9rem;
+        line-height: 1.6rem;
+
+        .photo {
+          width: 36px;
+          cursor: pointer;
+          position: relative;
+          z-index: 4;
+
+          img {
+            width: 24px;
+            @include transition(all, .41s, ease-in);
+            transform: rotate(0);
+          }
+        }
+        .text {
+          flex-grow: 2;
+          line-height: 24px;
+          padding-left: 14px;
+          font-size: 14px;
+        }
+
+        .status.refresh {
+          animation: refresh 0.4s ease-out;
+        }
+
+        @keyframes refresh {
+          0% {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          100% {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      }
+    }
+
+    // div weekly-forecast
+    .weekly-forecast {
+      width: 496px;
+      display: flex;
+      justify-content: space-between;
+      align-content: space-between;
+      flex-direction: column;
+      background: $defaultCityBg no-repeat;
+      background-size: cover;
+      position: relative;
+      overflow: hidden;
+      @include transition(all, .24s, ease-out);
+
+      &:before {
+        content: "";
+        display: block;
+        position: absolute;
+        @include transition(all, .24s, ease-out);
+      }
+
+      &.open:before {
+        height: 100%;
+        width: 100%;
+        top: 0;
+        left: 0;
+        background: rgba(0,0,0,0.41);
+      }
+        
+      h1 {
+        margin-left: 18px;
+        max-height: 30px;
+        font-size: 3rem;
+        margin-bottom: 23px;
+        color: $mainColor;
+        text-transform: uppercase;
+        text-shadow: 0 0 64px rgba(0,0,0,0.41);
+        display: inline-block;
+        cursor: pointer;
+        position: relative;
+        z-index: 2;
+        font-weight: 600;
+        @include transition(all, .24s, ease-in);
+
+        &.another {
+          opacity: 0.69;
+          &:hover {
+            opacity: 1;
+          }
+        }
+      }
+
+      .arrow {
+        width: 4%;
+        margin-left: 4px;
+      }
+
+      .title {
+        padding-top: 36px;
+
+        i {
+          text-shadow: 0 0 14px #000;
+          font-size: 2.4rem;
+          color: $mainColor;
+          display: inline-block;
+          padding: 0 14px 14px 14px;
+
+          &.open {
+            transform: rotate(180deg);
+            transform-origin: 50% 36%;
+          }
+        }
+      }
+
+      .current-date {
+        margin-left: 19px;
+        flex-grow: 1;
+        font-size: 1.4rem;
+        text-transform: uppercase;
+        color: $mainColor;
+        text-shadow: 0 0 64px rgba(0, 0, 0, 1);
+        @include transition(all, .24s, ease-out);
+        transition-delay: .24s;
+        font-weight: 500;
+        position: relative;
+        z-index: 4;
+
+        &.open {
+          opacity: 0;
+        }
+      }
+
+      .city-list { 
+        opacity: 0;
+        transform: translateY(-16px);
+        @include transition(all, .41s, ease-out);
+        transition-delay: .24s;
+        height: 0;
+        
+
+        &.open {
+          opacity: 1;
+          transform: translateY(0);
+        }      
+
+        h1 {
+          position: relative;
+          z-index: 4;
+          display: block;
+        }
+        
+      }
+
+      .one-week-forecast {
+        display: flex;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+
+        &:before {
+          content: "";
+          background-image: $defaultCityBg;
+          display: block;
+          height: 500px;
+          width: 102%;
+          position: absolute;
+          bottom: 0;
+          background-size: cover;
+          filter: blur(4px);
+          z-index: 1;
+          background-color: $mainColor;
+        }
+
+        &.open {
+          opacity: 0.69;
+          filter: blur(1px);
+        }
+
+        .week-forecast-item {
+          flex-grow: 1;
+          text-align: center;
+          z-index: 2;
+          padding-bottom: 4px;
+          @include transition(all, .24s, ease-in);
+          cursor: pointer;
+          flex-basis: 14.2857142857%;
+          border-width: 0 1px 1px 0;
+          border-style: solid;
+          border-color: rgba(255,255,255,.24);
+
+          span {
+            display: block;
+            color: $mainColor;
+            padding: 6px 0 14px 0;
+          }
+
+          &:hover {
+            background: rgba(255,255,255,.24);
+            
+            * {
+              margin-top: -1px;
+              text-shadow: 0 0 14px $mainColor;
+            }
+
+            img {
+              transform: scale(1.14);
+            }
+          }
+
+          * {
+            @include transition(all, .24s, ease-out);
+          }
+
+          .day-in-week {
+            margin-top: 24px;
+            font-size: .7rem;
+            text-shadow: 0 0 14px rgba(0,0,0,0.41);
+          }
+
+          .week-forecast-image {
+            img {
+              max-width: 69px;
+            }
+          }
+        }
+      }
+    }
+    .back-image {
+      background: url(//uploads.codesandbox.io/uploads/user/7907dbc5-9a62-4c02-b43f-2f2b34d82638/TIRH-ns.jpg) no-repeat;
+      background-size: cover;
+    }
+
+    // Current weather detailed info like humidity, dew pt. etc.
+    .daily-indicators {
+      width: $smallBoxesWidth;
+      background-image: linear-gradient(to top right, #eaaa59, #d1d0b2);
+      color: $mainColor;
+
+      .other-forecast-indicators {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 30px 0 0 36px;
+
+        .indicator {
+          text-align: left;
+          flex: 1 94px;
+          margin-bottom: 23px;
+          span:first-child {
+            font-size: 1.4rem;
+          }
+          .name-of-indicator {
+            display: block;
+            padding-top: 4px;
+          }
+        }
+      }
+    }
+
+    
+    
+  } // close .main
+} // close .application
+
+.line {
+  opacity: 0;
+}
+
+// Style Chart.js component animation
+.loaded {
+  .line {
+    stroke-dasharray: 41 600;
+    stroke-dashoffset: 41;
+    animation-iteration-count: 1;
+    animation-delay: 2s;
+    animation: dash 0.7s linear;
+    opacity: 1;
+  }
+
+  @keyframes dash {
+    from {
+      stroke-dashoffset: 600;
+    }
+
+    to {
+      stroke-dashoffset: 41;
+    }
+  }
+} // close .loaded
+
+// Responsive for mobile layout
+@media (max-width: 800px) {
+  .application {
+    width: 100%;
+    box-sizing: border-box;
+    margin: 14px 0;
+
+    .main {
+      display: flex;
+      width: 100%;
+      margin: 0 auto;
+      flex-wrap: wrap;
+      box-sizing: border-box;
+      
+      * {
+        box-sizing: border-box;
+      }
+
+      .item {
+        flex-grow: 1;
+        flex-basis: 100%;
+        border: 0;
+        margin: 0 0 14px 0;
+      }
+
+      .col {
+        width: 100%;
+      }
+
+      .weekly-forecast {
+        flex-basis: 100%;
+        width: 100%;
+        height: 442px;
+      }
+
+      .current-forecast {
+        width: 100%;
+        flex-basis: 100%;
+
+      .current-item {
+        flex-grow: 0 !important;
+      }
+
+      .currentTemp {
+        flex-basis: 84% !important;
+
+        span {
+          line-height: 30px;
+        }
+      }
+      
+      .updated {
+        flex-basis: 100%;
+        align-self: auto;
+      }
+        .weather_image {
+          flex-basis: 10%;
+        }
+      }
+
+      .daily-indicators {
+        width: 100%;
+        flex-basis: 50%;
+        line-height: 1.5rem;
+      }
+    } // close .main
+  } // .close .application
+}
+
+
+// Responsive layout for mobile device
+@media (max-width: 400px) {
+  .application {
+    .main {
+      .current-forecast {
+        .currentTemp {
+          flex-basis: 73% !important;
+        }
+        .weather_image {
+          flex-basis: 23% !important;
+        }
+      }
+
+      .daily-indicators {
+        .other-forecast-indicators {
+          padding: 32px 0 0 14px;
+          flex-basis: 41%;
+          .indicator {
+            flex: 1;
+          }
+        }
+      }
+    }
+  }
+}
